@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon Projet unique</title>
+    <style>
+      /* Réinitialisation et variables */
+      :root {
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent: #38bdf8;
+        --accent-hover: #0ea5e9;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.7;
+        padding: 0 20px;
+      }
+
+      /* Liens globaux */
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      a:hover {
+        color: var(--accent-hover);
+      }
+
+      /* Sections communes */
+      section,
+      header,
+      footer {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 40px;
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      h1,
+      h2 {
+        margin-bottom: 20px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+      }
+
+      p {
+        color: var(--text-muted);
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+      }
+
+      /* Header / Bannière d'accueil */
+      header {
+        text-align: center;
+        margin-top: 10vh;
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      header h1 {
+        font-size: 2.8rem;
+        color: #fff;
+      }
+
+      header p {
+        font-size: 1.2rem;
+      }
+
+      /* Liste à puces stylisée */
+      ul {
+        list-style: none;
+        display: grid;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      ul li {
+        position: relative;
+        padding-left: 28px;
+        color: var(--text-main);
+      }
+
+      ul li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: bold;
+      }
+
+      /* Section Témoignage / Citation */
+      blockquote {
+        font-style: italic;
+        font-size: 1.2rem;
+        border-left: 4px solid var(--accent);
+        padding-left: 20px;
+        margin: 10px 0;
+      }
+
+      cite {
+        display: block;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      /* Pied de page */
+      footer {
+        text-align: center;
+        background: transparent;
+        box-shadow: none;
+        margin-bottom: 10vh;
+      }
+
+      /* Adaptabilité mobile */
+      @media (max-width: 600px) {
+        header h1 {
+          font-size: 2rem;
+        }
+        section,
+        header,
+        footer {
+          padding: 24px;
+          margin: 30px auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Bannière d'accueil -->
+    <header>
+      <h1>Monsieur Dev@</h1>
+      <p>Juste lui.</p>
+      <p><a href="#concept">Découvrir ↓</a></p>
+    </header>
+
+    <main>
+      <!-- Le Concept / Présentation -->
+      <section id="concept">
+        <h2>Ce que c'est</h2>
+        <p>
+          Ici, on explique le cœur du sujet de manière simple et percutante.
+        </p>
+        <ul>
+          <li>Point fort numéro 1</li>
+          <li>Point fort numéro 2</li>
+          <li>Point fort numéro 3</li>
+        </ul>
+      </section>
+
+      <!-- Galerie / Focus -->
+      <section id="focus">
+        <h2>En images / En détails</h2>
+        <p>
+          Un espace pour montrer des exemples ou développer les fonctionnalités.
+        </p>
+      </section>
+
+      <!-- Témoignage ou Citation -->
+      <section id="avis">
+        <blockquote>
+          "Une super citation ou un avis marquant qui donne du crédit au
+          projet."
+          <cite>— L'Auteur</cite>
+        </blockquote>
+      </section>
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+      <p>Fait avec passion — &copy; 2026</p>
+    </footer>
+  </body>
+</html>
