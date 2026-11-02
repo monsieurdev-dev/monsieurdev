@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mon Projet unique</title>
+    <title>Blog Personnel - Monsieur Dev</title>
+
     <style>
-      /* Réinitialisation et variables */
       :root {
         --bg-color: #0f172a;
         --card-bg: #1e293b;
@@ -13,6 +13,8 @@
         --text-muted: #94a3b8;
         --accent: #38bdf8;
         --accent-hover: #0ea5e9;
+        --success: #22c55e;
+        --error: #ef4444;
       }
 
       * {
@@ -37,164 +39,670 @@
         padding: 0 20px;
       }
 
-      /* Liens globaux */
-      a {
-        color: var(--accent);
-        text-decoration: none;
-        transition: color 0.2s ease;
-      }
-
-      a:hover {
-        color: var(--accent-hover);
-      }
-
-      /* Sections communes */
-      section,
-      header,
+      /* Alignement des sections principales */
+      .header,
+      main,
+      .pagination-container,
       footer {
         max-width: 800px;
-        margin: 60px auto;
-        padding: 40px;
-        background-color: var(--card-bg);
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        margin: 40px auto;
+        width: 100%;
       }
 
-      h1,
-      h2 {
-        margin-bottom: 20px;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-      }
-
-      p {
-        color: var(--text-muted);
-        margin-bottom: 20px;
-        font-size: 1.1rem;
-      }
-
-      /* Header / Bannière d'accueil */
-      header {
+      /* En-tête professionnel */
+      .header {
         text-align: center;
-        margin-top: 10vh;
+        margin-top: 8vh;
+        padding: 40px;
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
 
-      header h1 {
-        font-size: 2.8rem;
+      .header h1 {
+        font-size: 2.4rem;
         color: #fff;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        margin-bottom: 8px;
       }
 
-      header p {
-        font-size: 1.2rem;
+      .header p {
+        font-size: 1.05rem;
+        color: var(--text-muted);
       }
 
-      /* Liste à puces stylisée */
-      ul {
-        list-style: none;
-        display: grid;
-        gap: 12px;
-        margin-top: 20px;
+      /* Zone du flux d'articles */
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        min-height: 150px;
       }
 
-      ul li {
-        position: relative;
-        padding-left: 28px;
+      main .card {
+        background-color: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+      }
+
+      main .card header {
+        padding: 14px 20px;
+        background-color: rgba(0, 0, 0, 0.15);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: var(--accent);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .btn-copy {
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        color: var(--accent);
+        padding: 5px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.75rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .btn-copy:hover {
+        background: var(--accent);
+        color: var(--bg-color);
+      }
+
+      main .card div {
+        padding: 24px;
+      }
+
+      main .card p {
         color: var(--text-main);
+        font-size: 1.05rem;
+        white-space: pre-wrap;
       }
 
-      ul li::before {
-        content: "✓";
-        position: absolute;
-        left: 0;
-        color: var(--accent);
-        font-weight: bold;
+      /* Zone de Pagination */
+      .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 30px;
+        padding: 10px 0;
       }
 
-      /* Section Témoignage / Citation */
-      blockquote {
-        font-style: italic;
-        font-size: 1.2rem;
-        border-left: 4px solid var(--accent);
-        padding-left: 20px;
-        margin: 10px 0;
-      }
-
-      cite {
-        display: block;
-        margin-top: 10px;
+      .btn-page {
+        background-color: var(--card-bg);
+        color: var(--text-main);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
         font-size: 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .btn-page:hover:not(:disabled) {
+        border-color: var(--accent);
         color: var(--accent);
-        font-style: normal;
+      }
+
+      .btn-page:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      #page-info {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+      }
+
+      /* Bouton flottant d'action fixe */
+      .btn-floating {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--accent);
+        color: var(--bg-color);
+        border: none;
+        border-radius: 50%;
+        width: 54px;
+        height: 54px;
+        font-size: 1.6rem;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background-color 0.2s ease,
+          transform 0.2s ease;
+        z-index: 10;
+      }
+
+      .btn-floating:hover {
+        background-color: var(--accent-hover);
+        transform: scale(1.03);
+      }
+
+      /* Fenêtre modale de publication centrale */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .publish-box {
+        background-color: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 28px;
+        width: 90%;
+        max-width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        transform: scale(0.96);
+        transition: transform 0.2s ease;
+      }
+
+      .modal-overlay.active .publish-box {
+        transform: scale(1);
+      }
+
+      .publish-box h3 {
+        font-size: 1.2rem;
         font-weight: 600;
       }
 
-      /* Pied de page */
-      footer {
-        text-align: center;
-        background: transparent;
-        box-shadow: none;
-        margin-bottom: 10vh;
+      .publish-box input,
+      .publish-box textarea {
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: var(--text-main);
+        padding: 12px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s ease;
+        width: 100%;
       }
 
-      /* Adaptabilité mobile */
-      @media (max-width: 600px) {
-        header h1 {
-          font-size: 2rem;
+      .publish-box input:focus,
+      .publish-box textarea:focus {
+        border-color: var(--accent);
+      }
+
+      .publish-box textarea {
+        min-height: 130px;
+        resize: vertical;
+        height: 70vh;
+      }
+
+      .publish-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+      }
+
+      .publish-actions button {
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .btn-cancel {
+        background-color: transparent;
+        color: var(--text-muted);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .btn-cancel:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: var(--text-main);
+      }
+
+      #btn-publish {
+        background-color: var(--accent);
+        color: var(--bg-color);
+      }
+
+      #btn-publish:hover {
+        background-color: var(--accent-hover);
+      }
+
+      #btn-publish:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Zone d'affichage des statuts et erreurs */
+      .status-message {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      /* Notifications d'alertes Toasts */
+      .toast-container {
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 90%;
+        max-width: 400px;
+      }
+
+      .toast {
+        background-color: #1e293b;
+        color: var(--text-main);
+        padding: 14px 20px;
+        border-radius: 6px;
+        border-left: 4px solid var(--accent);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        font-size: 0.95rem;
+        animation: slideDown 0.2s ease forwards;
+      }
+
+      .toast.success {
+        border-left-color: var(--success);
+      }
+      .toast.error {
+        border-left-color: var(--error);
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
         }
-        section,
-        header,
-        footer {
-          padding: 24px;
-          margin: 30px auto;
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px 0;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 600px) {
+        .header h1 {
+          font-size: 1.9rem;
+        }
+        .header,
+        main .card div,
+        .publish-box {
+          padding: 20px;
+        }
+        .publish-box {
+          margin: 0 10px;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Bannière d'accueil -->
-    <header>
+    <!-- En-tête principal -->
+    <header class="header">
       <h1>Monsieur Dev@</h1>
-      <p>Juste lui.</p>
-      <p><a href="#concept">Découvrir ↓</a></p>
+      <p>Blog Personnel</p>
     </header>
 
-    <main>
-      <!-- Le Concept / Présentation -->
-      <section id="concept">
-        <h2>Ce que c'est</h2>
-        <p>
-          Ici, on explique le cœur du sujet de manière simple et percutante.
-        </p>
-        <ul>
-          <li>Point fort numéro 1</li>
-          <li>Point fort numéro 2</li>
-          <li>Point fort numéro 3</li>
-        </ul>
-      </section>
-
-      <!-- Galerie / Focus -->
-      <section id="focus">
-        <h2>En images / En détails</h2>
-        <p>
-          Un espace pour montrer des exemples ou développer les fonctionnalités.
-        </p>
-      </section>
-
-      <!-- Témoignage ou Citation -->
-      <section id="avis">
-        <blockquote>
-          "Une super citation ou un avis marquant qui donne du crédit au
-          projet."
-          <cite>— L'Auteur</cite>
-        </blockquote>
-      </section>
+    <!-- Conteneur dynamique des articles -->
+    <main id="articles-container">
+      <div class="status-message">Initialisation de la page...</div>
     </main>
 
-    <!-- Pied de page -->
-    <footer>
-      <p>Fait avec passion — &copy; 2026</p>
-    </footer>
+    <!-- Zone de navigation (Pagination) -->
+    <div class="pagination-container">
+      <button class="btn-page" id="btn-prev" disabled>Précédent</button>
+      <span id="page-info">Page 1</span>
+      <button class="btn-page" id="btn-next" disabled>Suivant</button>
+    </div>
+
+    <!-- Bouton d'action flottant -->
+    <button
+      class="btn-floating"
+      id="btn-open-modal"
+      title="Nouvelle publication"
+    >
+      +
+    </button>
+
+    <!-- Modale de saisie centrale -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="publish-box">
+        <h3>Nouvelle Publication</h3>
+        <input
+          hidden
+          type="text"
+          id="post-date"
+          placeholder="Date (ex: 02/11/2026) - Laisser vide pour aujourd'hui"
+        />
+        <textarea
+          id="post-content"
+          placeholder="Saisissez votre texte ici..."
+        ></textarea>
+        <div class="publish-actions">
+          <button class="btn-cancel" id="btn-close-modal">Annuler</button>
+          <button id="btn-publish">Publier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zone de réception des alertes système -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+      // 1. Variables de configuration API
+      const URL_API = "https://khelnmxtzmsqqblxybbb.supabase.co/rest/v1/";
+      const CLE_ANON = "sb_publishable_Nd0b8Bhp-_pCSpEElYQ1jA_SBvyAhyF";
+      const HEADERS = {
+        apikey: CLE_ANON,
+        Authorization: `Bearer ${CLE_ANON}`,
+        "Content-Type": "application/json",
+      };
+
+      // 2. Gestion de l'état de la pagination (5 articles par page)
+      let pageActuelle = 1;
+      const articlesParPage = 5;
+
+      // 3. Système d'alertes visuelles (Toasts)
+      function afficherAlerte(message, type = "success") {
+        const container = document.getElementById("toast-container");
+        if (!container) return;
+
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+
+        // Disparition automatique fluide après 3,5 secondes
+        setTimeout(() => {
+          toast.style.transition = "opacity 0.3s ease";
+          toast.style.opacity = "0";
+          setTimeout(() => toast.remove(), 300);
+        }, 3500);
+      }
+
+      // 4. Éléments du DOM et gestion de la fenêtre modale
+      const modalOverlay = document.getElementById("modal-overlay");
+      const btnOpenModal = document.getElementById("btn-open-modal");
+      const btnCloseModal = document.getElementById("btn-close-modal");
+      const txtContent = document.getElementById("post-content");
+      const inputDate = document.getElementById("post-date");
+
+      function openModal() {
+        modalOverlay.classList.add("active");
+        txtContent.focus();
+      }
+
+      function closeModal() {
+        modalOverlay.classList.remove("active");
+        txtContent.value = "";
+        inputDate.value = "";
+      }
+
+      btnOpenModal.addEventListener("click", openModal);
+      btnCloseModal.addEventListener("click", closeModal);
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) closeModal();
+      });
+
+      // 5. Classe de gestion et construction d'une carte d'article
+      class BlogCard {
+        constructor(text, date) {
+          this.text = text;
+          this.date = date;
+          this.element = this.#createCardElement();
+        }
+
+        #createCardElement() {
+          const card = document.createElement("article");
+          card.className = "card";
+
+          // Entête de la carte (Date + Copier)
+          const header = document.createElement("header");
+          const dateSpan = document.createElement("span");
+          dateSpan.textContent = this.date;
+
+          const copyBtn = document.createElement("button");
+          copyBtn.className = "btn-copy";
+          copyBtn.textContent = "Copier";
+
+          // Logique interne de copie du texte de la carte
+          copyBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(this.text).then(() => {
+              const baseText = copyBtn.textContent;
+              copyBtn.textContent = "Copié";
+              setTimeout(() => (copyBtn.textContent = baseText), 2000);
+            });
+          });
+
+          header.appendChild(dateSpan);
+          header.appendChild(copyBtn);
+
+          // Corps de la carte
+          const bodyDiv = document.createElement("div");
+          const p = document.createElement("p");
+          p.innerHTML = this.text;
+
+          bodyDiv.appendChild(p);
+          card.appendChild(header);
+          card.appendChild(bodyDiv);
+
+          return card;
+        }
+
+        render(target) {
+          target.appendChild(this.element);
+        }
+      }
+
+      // 6. Sécurité réseau : Interrompt la requête après 10 secondes de lenteur
+      async function fetchAvecTimeout(resource, options = {}) {
+        const { timeout = 10000 } = options;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+
+        try {
+          const response = await fetch(resource, {
+            ...options,
+            signal: controller.signal,
+          });
+          clearTimeout(id);
+          return response;
+        } catch (error) {
+          clearTimeout(id);
+          throw error;
+        }
+      }
+
+      // 7. Éléments DOM pour le contrôle de la pagination
+      const mainContainer = document.getElementById("articles-container");
+      const btnPrev = document.getElementById("btn-prev");
+      const btnNext = document.getElementById("btn-next");
+      const pageInfo = document.getElementById("page-info");
+
+      // 8. Fonction de récupération des articles (Lecture)
+      async function lireArticles() {
+        mainContainer.innerHTML =
+          '<div class="status-message">Chargement des données...</div>';
+
+        // Calcul des index de découpage local pour la page en cours
+        const indexDebut = (pageActuelle - 1) * articlesParPage;
+        const indexFin = indexDebut + articlesParPage - 1;
+
+        try {
+          // Récupération de tous les articles triés du plus récent au plus ancien
+          const reponse = await fetchAvecTimeout(
+            `${URL_API}articles?select=content,date&order=id.desc`,
+            {
+              method: "GET",
+              headers: HEADERS,
+            },
+          );
+
+          if (!reponse.ok)
+            throw new Error(`Erreur serveur : ${reponse.status}`);
+
+          const tousLesArticles = await reponse.json();
+
+          // Découpage précis du tableau d'articles pour la page active
+          const articlesDeLaPage = tousLesArticles.slice(
+            indexDebut,
+            indexFin + 1,
+          );
+
+          mainContainer.replaceChildren();
+
+          if (articlesDeLaPage.length === 0) {
+            mainContainer.innerHTML =
+              '<div class="status-message">Aucun article publié pour le moment.</div>';
+            btnPrev.disabled = true;
+            btnNext.disabled = true;
+            return;
+          }
+
+          // Rendu graphique des cartes de la page
+          articlesDeLaPage.forEach((art) =>
+            new BlogCard(art.content, art.date).render(mainContainer),
+          );
+
+          // Mise à jour de l'état des contrôles de navigation
+          pageInfo.textContent = `Page ${pageActuelle}`;
+          btnPrev.disabled = pageActuelle === 1;
+          btnNext.disabled = indexFin >= tousLesArticles.length - 1;
+        } catch (erreur) {
+          mainContainer.innerHTML =
+            '<div class="status-message" style="color:var(--error);">Impossible de joindre le serveur. Vérifiez votre connexion.</div>';
+          afficherAlerte(
+            "Échec du chargement : serveur injoignable ou hors-ligne.",
+            "error",
+          );
+          btnPrev.disabled = true;
+          btnNext.disabled = true;
+        }
+      }
+
+      // Gestion des clics sur les boutons de navigation
+      btnPrev.addEventListener("click", async () => {
+        if (pageActuelle > 1) {
+          pageActuelle--;
+          await lireArticles();
+        }
+      });
+
+      btnNext.addEventListener("click", async () => {
+        pageActuelle++;
+        await lireArticles();
+      });
+
+      // 9. Fonction d'envoi de données (Écriture avec renvoi de booléen)
+      async function envoyerArticle(texte, dateSaisie) {
+        // Sécurité immédiate si l'appareil n'a pas Internet
+        if (!navigator.onLine) {
+          afficherAlerte(
+            "Vous êtes actuellement hors-ligne. Échec de la publication.",
+            "error",
+          );
+          return false;
+        }
+
+        const btnPublish = document.getElementById("btn-publish");
+        btnPublish.disabled = true;
+        btnPublish.textContent = "Publication...";
+
+        try {
+          const reponse = await fetchAvecTimeout(`${URL_API}articles`, {
+            method: "POST",
+            headers: HEADERS,
+            body: JSON.stringify({
+              content: texte,
+              date: dateSaisie.trim() || new Date().toLocaleDateString("fr-FR"),
+            }),
+          });
+
+          if (!reponse.ok) throw new Error();
+
+          afficherAlerte("Article publié avec succès.");
+          return true;
+        } catch (erreur) {
+          afficherAlerte(
+            "Erreur de transmission. Le serveur n'a pas répondu.",
+            "error",
+          );
+          return false;
+        } finally {
+          // Rétablissement de l'état initial du bouton
+          btnPublish.disabled = false;
+          btnPublish.textContent = "Publier";
+        }
+      }
+
+      // 10. Liaison de l'action de publication au bouton de l'interface
+      document
+        .getElementById("btn-publish")
+        .addEventListener("click", async () => {
+          const texte = txtContent.value.trim();
+          const date = inputDate.value;
+
+          if (!texte) {
+            afficherAlerte(
+              "Le contenu de la publication ne peut pas être vide.",
+              "error",
+            );
+            return;
+          }
+
+          // Utilisation et vérification du booléen renvoyé
+          const succes = await envoyerArticle(texte, date);
+          if (succes) {
+            closeModal();
+            pageActuelle = 1; // Réinitialisation à la première page pour voir le nouvel article
+            await lireArticles();
+          }
+        });
+
+      // 11. Initialisation et chargement automatique des données au démarrage
+      lireArticles();
+    </script>
   </body>
 </html>
