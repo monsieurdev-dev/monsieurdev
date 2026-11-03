@@ -117,6 +117,24 @@
         color: var(--bg-color);
       }
 
+      .btn-delete {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: var(--error);
+        padding: 5px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.75rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-left: 8px;
+      }
+
+      .btn-delete:hover {
+        background: var(--error);
+        color: var(--bg-color);
+      }
+
       main .card div {
         padding: 24px;
       }
@@ -488,7 +506,8 @@
 
       // 5. Classe de gestion et construction d'une carte d'article
       class BlogCard {
-        constructor(text, date) {
+        constructor(id, text, date) {
+          this.id = id; // On stocke l'ID unique de la base de données
           this.text = text;
           this.date = date;
           this.element = this.#createCardElement();
@@ -498,16 +517,17 @@
           const card = document.createElement("article");
           card.className = "card";
 
-          // Entête de la carte (Date + Copier)
           const header = document.createElement("header");
           const dateSpan = document.createElement("span");
           dateSpan.textContent = this.date;
 
+          // Bloc des actions (Copier + Supprimer)
+          const actionsDiv = document.createElement("div");
+          actionsDiv.style.padding = "0";
+
           const copyBtn = document.createElement("button");
           copyBtn.className = "btn-copy";
           copyBtn.textContent = "Copier";
-
-          // Logique interne de copie du texte de la carte
           copyBtn.addEventListener("click", () => {
             navigator.clipboard.writeText(this.text).then(() => {
               const baseText = copyBtn.textContent;
@@ -516,13 +536,29 @@
             });
           });
 
-          header.appendChild(dateSpan);
-          header.appendChild(copyBtn);
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "btn-delete";
+          deleteBtn.textContent = "Supprimer";
+          deleteBtn.addEventListener("click", async () => {
+            if (
+              confirm("Confirmer la suppression définitive de cet article ?")
+            ) {
+              const supprime = await supprimerArticle(this.id);
+              if (supprime) {
+                await lireArticles(); // Recharge la page actuelle proprement
+              }
+            }
+          });
 
-          // Corps de la carte
+          actionsDiv.appendChild(copyBtn);
+          actionsDiv.appendChild(deleteBtn);
+
+          header.appendChild(dateSpan);
+          header.appendChild(actionsDiv);
+
           const bodyDiv = document.createElement("div");
           const p = document.createElement("p");
-          p.innerHTML = this.text;
+          p.textContent = this.text;
 
           bodyDiv.appendChild(p);
           card.appendChild(header);
@@ -572,8 +608,9 @@
 
         try {
           // Récupération de tous les articles triés du plus récent au plus ancien
+          // Remplace la ligne actuelle du fetch dans lireArticles par celle-ci :
           const reponse = await fetchAvecTimeout(
-            `${URL_API}articles?select=content,date&order=id.desc`,
+            `${URL_API}articles?select=id,content,date&order=id.desc`,
             {
               method: "GET",
               headers: HEADERS,
@@ -601,9 +638,9 @@
             return;
           }
 
-          // Rendu graphique des cartes de la page
+          // Remplace l'ancienne boucle par celle-ci pour inclure art.id :
           articlesDeLaPage.forEach((art) =>
-            new BlogCard(art.content, art.date).render(mainContainer),
+            new BlogCard(art.id, art.content, art.date).render(mainContainer),
           );
 
           // Mise à jour de l'état des contrôles de navigation
@@ -619,6 +656,39 @@
           );
           btnPrev.disabled = true;
           btnNext.disabled = true;
+        }
+      }
+
+      // Fonction pour supprimer un article par son ID unique
+      async function supprimerArticle(id) {
+        if (!navigator.onLine) {
+          afficherAlerte(
+            "Vous êtes hors-ligne. Impossible de supprimer.",
+            "error",
+          );
+          return false;
+        }
+
+        try {
+          const reponse = await fetchAvecTimeout(
+            `${URL_API}articles?id=eq.${id}`,
+            {
+              method: "DELETE",
+              headers: HEADERS,
+            },
+          );
+
+          if (!reponse.ok) throw new Error();
+
+          afficherAlerte("Article supprimé.");
+          return true;
+        } catch (erreur) {
+          afficherAlerte(
+            "Erreur de suppression. Le serveur n'a pas répondu.",
+            "error",
+          );
+          console.log(erreur);
+          return false;
         }
       }
 
@@ -684,11 +754,14 @@
           const texte = txtContent.value.trim();
           const date = inputDate.value;
 
+          txtContent.disabled = true;
+
           if (!texte) {
             afficherAlerte(
               "Le contenu de la publication ne peut pas être vide.",
               "error",
             );
+            txtContent.disabled = false;
             return;
           }
 
@@ -697,6 +770,7 @@
           if (succes) {
             closeModal();
             pageActuelle = 1; // Réinitialisation à la première page pour voir le nouvel article
+            txtContent.disabled = false;
             await lireArticles();
           }
         });
