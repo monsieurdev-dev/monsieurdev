@@ -394,6 +394,20 @@
           margin: 0 10px;
         }
       }
+
+      .char-counter {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-align: right;
+        margin-top: -8px;
+        margin-bottom: 4px;
+        transition: color 0.2s ease;
+      }
+
+      .char-counter.limit {
+        color: var(--error);
+        font-weight: 600;
+      }
     </style>
   </head>
   <body>
@@ -438,6 +452,8 @@
           id="post-content"
           placeholder="Saisissez votre texte ici..."
         ></textarea>
+        <div id="char-counter" class="char-counter">0 / 280 caractères</div>
+
         <div class="publish-actions">
           <button class="btn-cancel" id="btn-close-modal">Annuler</button>
           <button id="btn-publish">Publier</button>
@@ -557,10 +573,9 @@
           header.appendChild(actionsDiv);
 
           const bodyDiv = document.createElement("div");
-          const p = document.createElement("p");
-          p.textContent = this.text;
 
-          bodyDiv.appendChild(p);
+          bodyDiv.innerHTML = this.text;
+
           card.appendChild(header);
           card.appendChild(bodyDiv);
 
@@ -777,6 +792,34 @@
 
       // 11. Initialisation et chargement automatique des données au démarrage
       lireArticles();
+
+      // 12. Gestion du compteur de caractères et raccourci clavier de publication
+      const max_length = 500;
+      const charCounter = document.getElementById("char-counter");
+
+      // Initialisation du compteur au démarrage
+      charCounter.textContent = `${txtContent.value.length}/${max_length}`;
+
+      // Écouteur sur la zone de texte (input ou keyup)
+      txtContent.addEventListener("input", function () {
+        const longueur = this.value.length;
+        charCounter.textContent = `${longueur}/${max_length}`;
+
+        // Devient rouge si la limite est dépassée
+        if (longueur > max_length) {
+          charCounter.classList.add("limit");
+        } else {
+          charCounter.classList.remove("limit");
+        }
+      });
+
+      // Intercepter Ctrl + Entrée pour soumettre le formulaire
+      txtContent.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "Enter") {
+          e.preventDefault(); // Évite le saut de ligne indésirable
+          document.getElementById("btn-publish").click(); // Déclenche le clic de publication
+        }
+      });
     </script>
   </body>
 </html>
